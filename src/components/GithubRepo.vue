@@ -7,12 +7,15 @@
       :search-input.sync="usersearch"
       item-text="login"
     />
+    <div>
+      <v-btn>VAI</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
   import debounce from 'lodash/debounce'
-
+  import { api } from '@/api/api.js'
 
   export default {
     data: () => ({
@@ -23,17 +26,20 @@
     }),
     methods: {
       procuraUsuariosGithub: debounce(function () {
-        console.log('perguntei pro github ' + this.usersearch)
-          this.userlist = [
-            {login: 'joao'},
-            {login: 'jose'}
-          ]
+        this.userloading = true
+        api.search_users(this.usersearch).then(data => {
+          this.userlist = data.items
           this.userloading = false
-        }, 1000)
+        })
+        this.userlist = [
+          {login: 'joao'},
+          {login: 'jose'}
+        ]
+        this.userloading = false
+      }, 1000),
     },
     watch: {
       usersearch () {
-        this.userloading = true
         this.procuraUsuariosGithub()
       }
     }
