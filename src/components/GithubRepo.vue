@@ -25,16 +25,10 @@
       userloading: false
     }),
     methods: {
-      procuraUsuariosGithub: debounce(function () {
+      procuraUsuariosGithub: debounce(async function () {
         this.userloading = true
-        api.search_users(this.usersearch).then(data => {
-          this.userlist = data.items
-          this.userloading = false
-        })
-        this.userlist = [
-          {login: 'joao'},
-          {login: 'jose'}
-        ]
+        const data = await api.search_users(this.usersearch)
+        this.userlist = data.items
         this.userloading = false
       }, 1000),
     },
