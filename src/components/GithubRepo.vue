@@ -26,15 +26,20 @@
     }),
     methods: {
       procuraUsuariosGithub: debounce(async function () {
+        debugger
         this.userloading = true
         const data = await api.search_users(this.usersearch)
-        this.userlist = data.items
+        for (let entry of data.results) {
+          this.userlist.push(entry.name)
+        }
         this.userloading = false
       }, 1000),
     },
     watch: {
       usersearch () {
-        this.procuraUsuariosGithub()
+        if (this.userlist.length === 0) {
+          this.procuraUsuariosGithub()
+        }
       }
     }
   }
