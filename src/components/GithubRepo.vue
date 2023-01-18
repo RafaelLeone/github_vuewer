@@ -11,8 +11,12 @@
     <div>
       <v-btn @click="vai">VAI</v-btn>
     </div>
-    <div>
-      <img :src=this.photo>
+    <br>
+    <div v-if="this.photo">
+      <img :src=this.photo width="180px">
+    </div>
+    <div v-else>
+      Sprite indisponível
     </div>
   </div>
 </template>
