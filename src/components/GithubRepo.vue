@@ -6,6 +6,7 @@
       :loading="userloading"
       :search-input.sync="usersearch"
       item-text="login"
+      label="Digite o nome de um pokémon"
     />
     <div>
       <v-btn @click="vai">VAI</v-btn>
