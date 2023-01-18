@@ -8,7 +8,10 @@
       item-text="login"
     />
     <div>
-      <v-btn>VAI</v-btn>
+      <v-btn @click="vai">VAI</v-btn>
+    </div>
+    <div>
+      <img :src=this.photo>
     </div>
   </div>
 </template>
@@ -22,11 +25,11 @@
       user: null,
       usersearch: null,
       userlist: [],
-      userloading: false
+      userloading: false,
+      photo: null
     }),
     methods: {
       procuraUsuariosGithub: debounce(async function () {
-        debugger
         this.userloading = true
         const data = await api.search_users(this.usersearch)
         for (let entry of data.results) {
@@ -34,6 +37,12 @@
         }
         this.userloading = false
       }, 1000),
+      async vai () {
+        if (this.usersearch) {
+          const foto = await api.procura_foto(this.usersearch)
+          this.photo = foto.sprites.front_default
+        }
+      }
     },
     watch: {
       usersearch () {
