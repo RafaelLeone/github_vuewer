@@ -38,23 +38,21 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <GithubVuewer/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import GithubVuewer from './components/GithubVuewer.vue'
+
 
 export default {
   name: 'App',
-
   components: {
-    HelloWorld,
+    GithubVuewer
   },
-
   data: () => ({
-    //
   }),
-};
+}
 </script>
