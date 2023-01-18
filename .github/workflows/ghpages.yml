@@ -15,6 +15,5 @@ jobs:
       - run: npm run build
       - uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
-          base_branch: main
           branch: gh-pages
           folder: dist
