@@ -1,13 +1,30 @@
 <template>
   <div>
-    <v-autocomplete
-      v-model="user"
-      :items="userlist"
-      :loading="userloading"
-      :search-input.sync="usersearch"
-      item-text="login"
-      label="Digite o nome de um pokémon"
-    />
+    <v-row class="text-center">
+      <v-col cols="6">
+        <v-autocomplete
+          v-model="user"
+          :items="userlist"
+          :loading="userloading"
+          :search-input.sync="usersearch"
+          item-text="login"
+          label="Digite o nome de um pokémon"
+        />
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="repo"
+          :items="repolist"
+          :loading="repoloading"
+          :disabled="!this.user"
+          item-text="name"
+          label="Movimentos"
+          return-object
+          single-line
+        ></v-select>
+      </v-col>
+    </v-row>
+    
     <div>
       <v-btn @click="vai">VAI</v-btn>
     </div>
@@ -28,9 +45,12 @@
   export default {
     data: () => ({
       user: null,
+      repo: null,
       usersearch: null,
       userlist: [],
+      repolist: [],
       userloading: false,
+      repoloading: false,
       photo: null
     }),
     methods: {
@@ -42,9 +62,18 @@
         }
         this.userloading = false
       }, 1000),
+      async listaRepositorios () {
+        this.repoloading = true
+        const data = await api.procura_poke(this.user)
+        for (let move of data.moves) {
+          this.repolist.push(move.move.name)
+        }
+        debugger
+        this.repoloading = false
+      },
       async vai () {
         if (this.usersearch) {
-          const foto = await api.procura_foto(this.usersearch)
+          const foto = await api.procura_poke(this.usersearch)
           this.photo = foto.sprites.front_default
         }
       }
@@ -54,6 +83,9 @@
         if (this.userlist.length === 0) {
           this.procuraUsuariosGithub()
         }
+      },
+      user () {
+        this.listaRepositorios()
       }
     }
   }
