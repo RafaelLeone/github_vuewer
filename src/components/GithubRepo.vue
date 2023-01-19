@@ -18,22 +18,34 @@
           :loading="repoloading"
           :disabled="!this.user"
           item-text="name"
-          label="Movimentos"
+          label="Selecione um movimento"
           return-object
           single-line
         ></v-select>
       </v-col>
     </v-row>
-    
-    <div>
-      <v-btn @click="vai">VAI</v-btn>
-    </div>
+
     <br>
-    <div v-if="this.photo">
-      <img :src=this.photo width="180px">
-    </div>
-    <div v-else>
-      Sprite indisponível
+
+    <div class="board">
+      <div>
+        <v-btn @click="vai">Usar movimento</v-btn>
+      </div>
+      <br>
+      <div v-if="this.photo">
+        <img :src=this.photo width="180px">
+        <br>
+        {{ this.typelist }}
+      </div>
+      <div v-else>
+        Sprite indisponível
+      </div>
+      <br>
+      <div v-if="this.movimento">
+        <h1>{{ this.user.toUpperCase() }} usou {{ this.repo }}!!</h1>
+      </div>
+      <div v-else>
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +58,8 @@
     data: () => ({
       user: null,
       repo: null,
+      movimento: null,
+      typelist: [],
       usersearch: null,
       userlist: [],
       repolist: [],
@@ -68,14 +82,14 @@
         for (let move of data.moves) {
           this.repolist.push(move.move.name)
         }
-        debugger
+        for (let slot of data.types) {
+          this.typelist.push(slot.type.name)
+        }
+        this.photo = data.sprites.front_default
         this.repoloading = false
       },
       async vai () {
-        if (this.usersearch) {
-          const foto = await api.procura_poke(this.usersearch)
-          this.photo = foto.sprites.front_default
-        }
+        this.movimento = this.repo
       }
     },
     watch: {
@@ -90,3 +104,11 @@
     }
   }
 </script>
+
+<style scoped>
+  .board {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+</style>
