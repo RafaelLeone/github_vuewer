@@ -80,6 +80,7 @@
         this.repoloading = true
         this.repolist = []
         this.typelist = []
+        this.movimento = null
         const data = await api.procura_poke(this.user)
         for (let move of data.moves) {
           this.repolist.push(move.move.name)
