@@ -78,6 +78,8 @@
       }, 1000),
       async listaRepositorios () {
         this.repoloading = true
+        this.repolist = []
+        this.typelist = []
         const data = await api.procura_poke(this.user)
         for (let move of data.moves) {
           this.repolist.push(move.move.name)
